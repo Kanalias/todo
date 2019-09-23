@@ -18,19 +18,19 @@ const routes = [
         //         return '/todolist'
         //     }
         // },
-        beforeEnter: (to, from, next) => {
-
-            console.log();
-            return '/'
-            // if (!auth.loggedIn()) {
-            //     next({
-            //         path: '/login',
-            //         query: { redirect: to.fullPath }
-            //     })
-            // } else {
-            //     next()
-            // }
-        },
+        // beforeEnter: (to, from, next) => {
+        //
+        //     console.log();
+        //     return '/'
+        //     // if (!auth.loggedIn()) {
+        //     //     next({
+        //     //         path: '/login',
+        //     //         query: { redirect: to.fullPath }
+        //     //     })
+        //     // } else {
+        //     //     next()
+        //     // }
+        // },
         meta: {
             auth: undefined
         }
