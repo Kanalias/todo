@@ -2,9 +2,9 @@
     <div class="container">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Введите задачу" v-model="nameTask">
+            <input type="text" class="form-control" placeholder="Введите задачу" v-model="nameTask" required>
             <div class="input-group-prepend">
-                <button class="btn btn-outline-primary" type="button" @click="addTask">Добавить</button>
+                <button class="btn btn-outline-primary" type="button" @click.prevent="addTask">Добавить</button>
             </div>
         </div>
 
@@ -17,19 +17,19 @@
             </thead>
             <tbody >
                 <tr  v-for="(item, index) in tasks.data">
-                    <td v-if="item.status"><s> {{ item.text}}</s></td>
+                    <td v-if="item.status" style="color: #aaa;"><s> {{ item.text}}</s></td>
                     <td v-else> {{ item.text}}</td>
                     <td class="float-right">
-                        <button  class="btn btn-success" type="button" @click="performTask(item.id, index, item.status)">
+                        <button  class="btn btn-success" type="button" @click.prevent="performTask(item.id, index, item.status)">
                             <i class="fa fa-check"></i>
                         </button>
                         <button class="btn btn-primary"
                                 type="button"
                                 v-b-modal="'modal-edit-task'"
-                                @click="sendTask(item, index)">
+                                @click.prevent="sendTask(item, index)">
                             <i class="fa fa-pencil"></i>
                         </button>
-                        <button class="btn btn-danger" type="button" @click="deleteTask(item.id, index)">
+                        <button class="btn btn-danger" type="button" @click.prevent="deleteTask(item.id, index)">
                             <i class="fa fa-trash"></i>
                         </button>
                     </td>
@@ -59,29 +59,6 @@
                 </b-form-group>
             </form>
         </b-modal>
-<!--        <b-modal-->
-<!--            id="modal-edit-task"-->
-<!--            ref="modal"-->
-<!--            @show="resetModal"-->
-<!--            @hidden="resetModal"-->
-<!--            @ok="handleOk"-->
-<!--        >-->
-<!--            <form ref="form" @submit.stop.prevent="handleSubmit">-->
-<!--                <b-form-group-->
-<!--                    :state="nameState"-->
-<!--                    label="Изменение задачи:"-->
-<!--                    label-for="name-input"-->
-<!--                    invalid-feedback="Name is required"-->
-<!--                >-->
-<!--                    <b-form-input-->
-<!--                        id="name-input"-->
-<!--                        v-model="editNameTask"-->
-<!--                        :state="nameState"-->
-<!--                        required-->
-<!--                    ></b-form-input>-->
-<!--                </b-form-group>-->
-<!--            </form>-->
-<!--        </b-modal>-->
     </div>
 </template>
 
@@ -116,14 +93,10 @@
                             console.log(e);
                         });
                 }
-                else
-                {
-                    alert('Вы не ввели текст задачи');
-                }
             },
             deleteTask(idTask, indexArray){
                 //удаляем
-                this.$bvModal.msgBoxConfirm('Вы дейтсвительно хотите удалить эту запись?',{
+                this.$bvModal.msgBoxConfirm('Подвердить удаление?',{
                     okTitle: 'Да',
                     cancelTitle: 'Нет',
                 })
@@ -147,7 +120,15 @@
                     });
             },
             performTask(idTask, indexArray, statusTask){
-                this.$bvModal.msgBoxConfirm('Вы действительно выполнили задачу?',{
+                var msgBoxText = '';
+                if(statusTask){
+                    msgBoxText = 'Подтвердить отмену выполнения?'
+                }
+                else {
+                    msgBoxText = 'Подтвердить выполнение?'
+                }
+
+                this.$bvModal.msgBoxConfirm(msgBoxText,{
                     okTitle: 'Да',
                     cancelTitle: 'Нет',
                 })

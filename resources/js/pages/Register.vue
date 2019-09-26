@@ -6,23 +6,37 @@
                     <div class="card-header">Регистрация</div>
                     <div class="card-body">
                         <div class="alert alert-danger" v-if="has_error && !success">
-                            <p v-if="error == 'registration_validation_error'">Проверьте свои данные</p>
-                            <p v-else>Непредвиденная ошибка, проверьте данные</p>
+                            <p v-if="error == 'registration_validation_error'"> {{ error }}</p>
+                            <p v-else-if="has_email && password_mismatch"> {{errors.email[0]}} {{errors.password[0]}}</p>
+                            <p v-else-if="has_email"> {{errors.email[0]}} </p>
+                            <p v-else-if="password_mismatch"> {{errors.password[0]}}</p>
                         </div>
                         <form autocomplete="off" @submit.prevent="register" v-if="!success" method="post">
-                            <div class="form-group" v-bind:class="{ 'has-error': has_error && errors.email }">
+                            <div class="form-group" v-bind:class="{ 'has-error': has_error && email_error }">
                                 <label for="email">E-mail</label>
-                                <input type="email" id="email" class="form-control" placeholder="user@example.com" v-model="email">
-                                <span class="form-text" v-if="has_error && errors.email">{{ errors.email }}</span>
+                                <input type="email"
+                                       id="email"
+                                       class="form-control"
+                                       placeholder="user@example.com"
+                                       v-model="email" required >
                             </div>
-                            <div class="form-group" v-bind:class="{ 'has-error': has_error && errors.password }">
+                            <div class="form-group" v-bind:class="{ 'has-error': has_error && password_mismatch}">
                                 <label for="password">Пароль</label>
-                                <input type="password" id="password" class="form-control" v-model="password">
-                                <span class="form-text" v-if="has_error && errors.password">{{ errors.password }}</span>
+                                <input type="password"
+                                       id="password"
+                                       class="form-control"
+                                       v-model="password"
+                                       required
+                                >
                             </div>
-                            <div class="form-group" v-bind:class="{ 'has-error': has_error && errors.password }">
+                            <div class="form-group" v-bind:class="{ 'has-error': has_error && password_mismatch}">
                                 <label for="password_confirmation">Подтверждение пароля</label>
-                                <input type="password" id="password_confirmation" class="form-control" v-model="password_confirmation">
+                                <input type="password"
+                                       id="password_confirmation"
+                                       class="form-control"
+                                       v-model="password_confirmation"
+                                       required
+                                >
                             </div>
                             <button type="submit" class="btn btn-outline-primary">Зарегистрироваться</button>
                         </form>
@@ -42,7 +56,11 @@
                 password: '',
                 password_confirmation: '',
                 has_error: false,
-                error: '',
+                has_email: false,
+                email_error: 'Данный адрес занят',
+                password_mismatch: false,
+                password_error: 'Пароли не совпадают',
+                error: 'Непредвиденная ошибка, проверьте данные',
                 errors: {},
                 success: false
             }
@@ -61,9 +79,17 @@
                         this.$router.push({name: 'login', params: {successRegistrationRedirect: true}});
                     },
                     error: function (res) {
+                        this.has_email = false;
+                        this.password_mismatch = false;
+
                         app.has_error = true;
-                        app.error = res.response.data.error;
-                        app.errors = res.response.data.errors || {}
+                        app.errors = res.response.data.errors || {};
+                        if (app.errors.email){
+                            this.has_email = true;
+                        }
+                        if (app.errors.password){
+                            this.password_mismatch = true;
+                        }
                     }
                 })
             }

@@ -86,34 +86,6 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "./node_modules/@websanova/vue-auth/demos/nuxt/middleware/auth.js":
-/*!************************************************************************!*\
-  !*** ./node_modules/@websanova/vue-auth/demos/nuxt/middleware/auth.js ***!
-  \************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony default export */ __webpack_exports__["default"] = (function (ctx) {
-
-    // console.log(this);
-    // console.log(ctx.options);
-
-    console.log(ctx);
-    // console.log(ctx.app);
-  
-    // if (route.name === 'index') {
-    //     return redirect('/login');
-    // }
-
-    // console.log(route);
-
-    return;
-});
-
-/***/ }),
-
 /***/ "./node_modules/@websanova/vue-auth/drivers/auth/bearer.js":
 /*!*****************************************************************!*\
   !*** ./node_modules/@websanova/vue-auth/drivers/auth/bearer.js ***!
@@ -3045,6 +3017,7 @@ module.exports = {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _auth__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../auth */ "./resources/js/auth.js");
 //
 //
 //
@@ -3065,21 +3038,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      home_name: '',
       routes: {
         // UNLOGGED
         unlogged: [{
@@ -3096,7 +3059,23 @@ __webpack_require__.r(__webpack_exports__);
         }]
       }
     };
-  }
+  },
+  methods: {
+    checkLink: function checkLink() {
+      if (localStorage.getItem(_auth__WEBPACK_IMPORTED_MODULE_0__["default"].tokenDefaultName) != null) {
+        this.home_name = 'home';
+      } else {
+        this.home_name = 'todolist';
+      }
+
+      console.log(this.home_name);
+    },
+    logoutCheck: function logoutCheck() {
+      this.$auth.logout();
+      this.checkLink();
+    }
+  },
+  mounted: function mounted() {}
 });
 
 /***/ }),
@@ -3211,7 +3190,6 @@ __webpack_require__.r(__webpack_exports__);
         },
         error: function error() {
           app.has_error = true;
-          app.error = res.response.data.error;
         },
         rememberMe: true,
         fetchUser: true
@@ -3266,6 +3244,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "Register",
   data: function data() {
@@ -3274,7 +3266,11 @@ __webpack_require__.r(__webpack_exports__);
       password: '',
       password_confirmation: '',
       has_error: false,
-      error: '',
+      has_email: false,
+      email_error: 'Данный адрес занят',
+      password_mismatch: false,
+      password_error: 'Пароли не совпадают',
+      error: 'Непредвиденная ошибка, проверьте данные',
       errors: {},
       success: false
     };
@@ -3298,9 +3294,18 @@ __webpack_require__.r(__webpack_exports__);
           });
         },
         error: function error(res) {
+          this.has_email = false;
+          this.password_mismatch = false;
           app.has_error = true;
-          app.error = res.response.data.error;
           app.errors = res.response.data.errors || {};
+
+          if (app.errors.email) {
+            this.has_email = true;
+          }
+
+          if (app.errors.password) {
+            this.password_mismatch = true;
+          }
         }
       });
     }
@@ -3318,29 +3323,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -3433,15 +3415,13 @@ __webpack_require__.r(__webpack_exports__);
         })["catch"](function (e) {
           console.log(e);
         });
-      } else {
-        alert('Вы не ввели текст задачи');
       }
     },
     deleteTask: function deleteTask(idTask, indexArray) {
       var _this2 = this;
 
       //удаляем
-      this.$bvModal.msgBoxConfirm('Вы дейтсвительно хотите удалить эту запись?', {
+      this.$bvModal.msgBoxConfirm('Подвердить удаление?', {
         okTitle: 'Да',
         cancelTitle: 'Нет'
       }).then(function (value) {
@@ -3461,7 +3441,15 @@ __webpack_require__.r(__webpack_exports__);
     performTask: function performTask(idTask, indexArray, statusTask) {
       var _this3 = this;
 
-      this.$bvModal.msgBoxConfirm('Вы действительно выполнили задачу?', {
+      var msgBoxText = '';
+
+      if (statusTask) {
+        msgBoxText = 'Подтвердить отмену выполнения?';
+      } else {
+        msgBoxText = 'Подтвердить выполнение?';
+      }
+
+      this.$bvModal.msgBoxConfirm(msgBoxText, {
         okTitle: 'Да',
         cancelTitle: 'Нет'
       }).then(function (value) {
@@ -3537,6 +3525,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Menu_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/Menu.vue */ "./resources/js/components/Menu.vue");
+/* harmony import */ var _auth__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../auth */ "./resources/js/auth.js");
 //
 //
 //
@@ -3549,6 +3538,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "App",
   data: function data() {
@@ -3559,11 +3549,12 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     Menu: _components_Menu_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
-  mounted: function mounted() {// console.log(localStorage.getItem('laravel-jwt-auth'));
-    // if(localStorage.getItem('laravel-jwt-auth')){
-    //     const redirectTo = 'todolist';
-    //     this.$router.replace(redirectTo);
-    // }
+  created: function created() {
+    if (localStorage.getItem(_auth__WEBPACK_IMPORTED_MODULE_1__["default"].tokenDefaultName) != null) {
+      this.$route.push({
+        path: '/todolist'
+      });
+    }
   }
 });
 
@@ -54406,24 +54397,17 @@ var render = function() {
     [
       _c(
         "router-link",
-        { staticClass: "navbar-brand", attrs: { to: { name: "home" } } },
-        [_vm._v("ToDo")]
-      ),
-      _vm._v(" "),
-      _c(
-        "button",
         {
-          staticClass: "navbar-toggler",
-          attrs: {
-            type: "button",
-            "data-toggle": "collapse",
-            "data-target": "#navbarSupportedContent",
-            "aria-controls": "navbarSupportedContent",
-            "aria-expanded": "false",
-            "aria-label": "Toggle navigation"
+          staticClass: "navbar-brand",
+          attrs: { to: { name: _vm.home_name } },
+          on: {
+            click: function($event) {
+              $event.preventDefault()
+              return _vm.checkLink()
+            }
           }
         },
-        [_c("span", { staticClass: "navbar-toggler-icon" })]
+        [_vm._v("ToDo")]
       ),
       _vm._v(" "),
       _c(
@@ -54433,58 +54417,6 @@ var render = function() {
           attrs: { id: "navbarSupportedContent" }
         },
         [
-          _vm.$auth.check(1)
-            ? _c(
-                "ul",
-                { staticClass: "navbar-nav mr-auto" },
-                _vm._l(_vm.routes.user, function(route, key) {
-                  return _c(
-                    "li",
-                    { key: route.path, staticClass: "nav-item" },
-                    [
-                      _c(
-                        "router-link",
-                        {
-                          key: key,
-                          staticClass: "nav-link",
-                          attrs: { to: { name: route.path } }
-                        },
-                        [_vm._v(_vm._s(route.name))]
-                      )
-                    ],
-                    1
-                  )
-                }),
-                0
-              )
-            : _vm._e(),
-          _vm._v(" "),
-          _vm.$auth.check(2)
-            ? _c(
-                "ul",
-                { staticClass: "navbar-nav mr-auto" },
-                _vm._l(_vm.routes.user, function(route, key) {
-                  return _c(
-                    "li",
-                    { key: route.path, staticClass: "nav-item" },
-                    [
-                      _c(
-                        "router-link",
-                        {
-                          key: key,
-                          staticClass: "nav-link",
-                          attrs: { to: { name: route.path } }
-                        },
-                        [_vm._v(_vm._s(route.name))]
-                      )
-                    ],
-                    1
-                  )
-                }),
-                0
-              )
-            : _vm._e(),
-          _vm._v(" "),
           !_vm.$auth.check()
             ? _c(
                 "ul",
@@ -54499,7 +54431,13 @@ var render = function() {
                         {
                           key: key,
                           staticClass: "nav-link",
-                          attrs: { to: { name: route.path } }
+                          attrs: { to: { name: route.path } },
+                          on: {
+                            click: function($event) {
+                              $event.preventDefault()
+                              return _vm.checkLink()
+                            }
+                          }
                         },
                         [_vm._v(_vm._s(route.name))]
                       )
@@ -54518,7 +54456,7 @@ var render = function() {
                     "a",
                     {
                       staticClass: "nav-link",
-                      attrs: { href: "#" },
+                      attrs: { href: "/" },
                       on: {
                         click: function($event) {
                           $event.preventDefault()
@@ -54740,10 +54678,21 @@ var render = function() {
             _vm.has_error && !_vm.success
               ? _c("div", { staticClass: "alert alert-danger" }, [
                   _vm.error == "registration_validation_error"
-                    ? _c("p", [_vm._v("Проверьте свои данные")])
-                    : _c("p", [
-                        _vm._v("Непредвиденная ошибка, проверьте данные")
+                    ? _c("p", [_vm._v(" " + _vm._s(_vm.error))])
+                    : _vm.has_email && _vm.password_mismatch
+                    ? _c("p", [
+                        _vm._v(
+                          " " +
+                            _vm._s(_vm.errors.email[0]) +
+                            " " +
+                            _vm._s(_vm.errors.password[0])
+                        )
                       ])
+                    : _vm.has_email
+                    ? _c("p", [_vm._v(" " + _vm._s(_vm.errors.email[0]) + " ")])
+                    : _vm.password_mismatch
+                    ? _c("p", [_vm._v(" " + _vm._s(_vm.errors.password[0]))])
+                    : _vm._e()
                 ])
               : _vm._e(),
             _vm._v(" "),
@@ -54764,9 +54713,7 @@ var render = function() {
                       "div",
                       {
                         staticClass: "form-group",
-                        class: {
-                          "has-error": _vm.has_error && _vm.errors.email
-                        }
+                        class: { "has-error": _vm.has_error && _vm.email_error }
                       },
                       [
                         _c("label", { attrs: { for: "email" } }, [
@@ -54786,7 +54733,8 @@ var render = function() {
                           attrs: {
                             type: "email",
                             id: "email",
-                            placeholder: "user@example.com"
+                            placeholder: "user@example.com",
+                            required: ""
                           },
                           domProps: { value: _vm.email },
                           on: {
@@ -54797,13 +54745,7 @@ var render = function() {
                               _vm.email = $event.target.value
                             }
                           }
-                        }),
-                        _vm._v(" "),
-                        _vm.has_error && _vm.errors.email
-                          ? _c("span", { staticClass: "form-text" }, [
-                              _vm._v(_vm._s(_vm.errors.email))
-                            ])
-                          : _vm._e()
+                        })
                       ]
                     ),
                     _vm._v(" "),
@@ -54812,7 +54754,7 @@ var render = function() {
                       {
                         staticClass: "form-group",
                         class: {
-                          "has-error": _vm.has_error && _vm.errors.password
+                          "has-error": _vm.has_error && _vm.password_mismatch
                         }
                       },
                       [
@@ -54830,7 +54772,11 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control",
-                          attrs: { type: "password", id: "password" },
+                          attrs: {
+                            type: "password",
+                            id: "password",
+                            required: ""
+                          },
                           domProps: { value: _vm.password },
                           on: {
                             input: function($event) {
@@ -54840,13 +54786,7 @@ var render = function() {
                               _vm.password = $event.target.value
                             }
                           }
-                        }),
-                        _vm._v(" "),
-                        _vm.has_error && _vm.errors.password
-                          ? _c("span", { staticClass: "form-text" }, [
-                              _vm._v(_vm._s(_vm.errors.password))
-                            ])
-                          : _vm._e()
+                        })
                       ]
                     ),
                     _vm._v(" "),
@@ -54855,7 +54795,7 @@ var render = function() {
                       {
                         staticClass: "form-group",
                         class: {
-                          "has-error": _vm.has_error && _vm.errors.password
+                          "has-error": _vm.has_error && _vm.password_mismatch
                         }
                       },
                       [
@@ -54877,7 +54817,8 @@ var render = function() {
                           staticClass: "form-control",
                           attrs: {
                             type: "password",
-                            id: "password_confirmation"
+                            id: "password_confirmation",
+                            required: ""
                           },
                           domProps: { value: _vm.password_confirmation },
                           on: {
@@ -54954,7 +54895,7 @@ var render = function() {
             }
           ],
           staticClass: "form-control",
-          attrs: { type: "text", placeholder: "Введите задачу" },
+          attrs: { type: "text", placeholder: "Введите задачу", required: "" },
           domProps: { value: _vm.nameTask },
           on: {
             input: function($event) {
@@ -54972,7 +54913,12 @@ var render = function() {
             {
               staticClass: "btn btn-outline-primary",
               attrs: { type: "button" },
-              on: { click: _vm.addTask }
+              on: {
+                click: function($event) {
+                  $event.preventDefault()
+                  return _vm.addTask($event)
+                }
+              }
             },
             [_vm._v("Добавить")]
           )
@@ -54987,7 +54933,9 @@ var render = function() {
           _vm._l(_vm.tasks.data, function(item, index) {
             return _c("tr", [
               item.status
-                ? _c("td", [_c("s", [_vm._v(" " + _vm._s(item.text))])])
+                ? _c("td", { staticStyle: { color: "#aaa" } }, [
+                    _c("s", [_vm._v(" " + _vm._s(item.text))])
+                  ])
                 : _c("td", [_vm._v(" " + _vm._s(item.text))]),
               _vm._v(" "),
               _c("td", { staticClass: "float-right" }, [
@@ -54998,6 +54946,7 @@ var render = function() {
                     attrs: { type: "button" },
                     on: {
                       click: function($event) {
+                        $event.preventDefault()
                         return _vm.performTask(item.id, index, item.status)
                       }
                     }
@@ -55020,6 +54969,7 @@ var render = function() {
                     attrs: { type: "button" },
                     on: {
                       click: function($event) {
+                        $event.preventDefault()
                         return _vm.sendTask(item, index)
                       }
                     }
@@ -55034,6 +54984,7 @@ var render = function() {
                     attrs: { type: "button" },
                     on: {
                       click: function($event) {
+                        $event.preventDefault()
                         return _vm.deleteTask(item.id, index)
                       }
                     }
@@ -70214,8 +70165,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _routes__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./routes */ "./resources/js/routes.js");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
- //
-//
 
 
 
@@ -70235,8 +70184,7 @@ vue__WEBPACK_IMPORTED_MODULE_6___default.a.use(vue_router__WEBPACK_IMPORTED_MODU
 
 vue__WEBPACK_IMPORTED_MODULE_6___default.a.use(vue_axios__WEBPACK_IMPORTED_MODULE_8___default.a, axios__WEBPACK_IMPORTED_MODULE_5___default.a);
 axios__WEBPACK_IMPORTED_MODULE_5___default.a.defaults.baseURL = "/api/";
-vue__WEBPACK_IMPORTED_MODULE_6___default.a.use(_websanova_vue_auth__WEBPACK_IMPORTED_MODULE_7___default.a, _auth__WEBPACK_IMPORTED_MODULE_10__["default"]); // Load Index
-
+vue__WEBPACK_IMPORTED_MODULE_6___default.a.use(_websanova_vue_auth__WEBPACK_IMPORTED_MODULE_7___default.a, _auth__WEBPACK_IMPORTED_MODULE_10__["default"]);
 vue__WEBPACK_IMPORTED_MODULE_6___default.a.component('app', _js_views_App__WEBPACK_IMPORTED_MODULE_3__["default"]);
 var app = new vue__WEBPACK_IMPORTED_MODULE_6___default.a({
   el: '#app',
@@ -70706,16 +70654,11 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
-/* harmony import */ var _js_pages_Home__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/js/pages/Home */ "./resources/js/pages/Home.vue");
-/* harmony import */ var _js_pages_Login__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/js/pages/Login */ "./resources/js/pages/Login.vue");
-/* harmony import */ var _js_pages_Register__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/js/pages/Register */ "./resources/js/pages/Register.vue");
-/* harmony import */ var _js_pages_user_ToDoList__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! @/js/pages/user/ToDoList */ "./resources/js/pages/user/ToDoList.vue");
-/* harmony import */ var _websanova_vue_auth_demos_nuxt_middleware_auth__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! @websanova/vue-auth/demos/nuxt/middleware/auth */ "./node_modules/@websanova/vue-auth/demos/nuxt/middleware/auth.js");
-
-
+/* harmony import */ var vue_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-router */ "./node_modules/vue-router/dist/vue-router.esm.js");
+/* harmony import */ var _js_pages_Home__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @/js/pages/Home */ "./resources/js/pages/Home.vue");
+/* harmony import */ var _js_pages_Login__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @/js/pages/Login */ "./resources/js/pages/Login.vue");
+/* harmony import */ var _js_pages_Register__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/js/pages/Register */ "./resources/js/pages/Register.vue");
+/* harmony import */ var _js_pages_user_ToDoList__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/js/pages/user/ToDoList */ "./resources/js/pages/user/ToDoList.vue");
 
 
 
@@ -70724,54 +70667,60 @@ __webpack_require__.r(__webpack_exports__);
 var routes = [{
   path: '/',
   name: 'home',
-  component: _js_pages_Home__WEBPACK_IMPORTED_MODULE_2__["default"],
-  // redirect: () => {
-  //     console.log(localStorage.getItem('laravel-jwt-auth'));
-  //     if (localStorage.getItem('laravel-jwt-auth') != null) {
-  //         return '/todolist'
+  component: _js_pages_Home__WEBPACK_IMPORTED_MODULE_1__["default"] // beforeEach: (to, from, next) =>
+  // {
+  //     if (localStorage.getItem('laravel-jwt-auth') == null) {
+  //         // console.log('todolist')
+  //         return next({name: 'home'})
+  //     } else {
+  //         // console.log('todolist')
+  //         return next({name: 'todolist'})
   //     }
   // },
-  beforeEnter: function beforeEnter(to, from, next) {
-    console.log();
-    return '/'; // if (!auth.loggedIn()) {
-    //     next({
-    //         path: '/login',
-    //         query: { redirect: to.fullPath }
-    //     })
-    // } else {
-    //     next()
-    // }
-  },
-  meta: {
-    auth: undefined
-  }
+  // },
+
 }, {
   path: '/register',
   name: 'register',
-  component: _js_pages_Register__WEBPACK_IMPORTED_MODULE_4__["default"],
+  component: _js_pages_Register__WEBPACK_IMPORTED_MODULE_3__["default"],
   meta: {
     auth: false
   }
 }, {
   path: '/login',
   name: 'login',
-  component: _js_pages_Login__WEBPACK_IMPORTED_MODULE_3__["default"],
+  component: _js_pages_Login__WEBPACK_IMPORTED_MODULE_2__["default"],
   meta: {
     auth: false
   }
 }, {
   path: '/todolist',
   name: 'todolist',
-  component: _js_pages_user_ToDoList__WEBPACK_IMPORTED_MODULE_5__["default"],
+  component: _js_pages_user_ToDoList__WEBPACK_IMPORTED_MODULE_4__["default"],
   meta: {
-    auth: true
+    auth: true,
+    requiresAuth: true
   }
 }];
-var router = new vue_router__WEBPACK_IMPORTED_MODULE_1__["default"]({
+var router = new vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]({
   history: true,
   mode: 'history',
   routes: routes
-});
+}); // router.beforeEach((to, from, next) => {
+//    // if(to.matched.some(record => record.meta.guest)) {
+//         if(localStorage.getItem('laravel-jwt-auth') == null){
+//             // console.log('todolist')
+//             next({ name: 'home'})
+//         }
+//         else{
+//             // console.log('todolist')
+//             next({ name: 'todolist'})
+//         }
+//     // }else {
+//     //     next()
+//     // }
+// });
+
 /* harmony default export */ __webpack_exports__["default"] = (router);
 
 /***/ }),

@@ -1,8 +1,6 @@
 require('./bootstrap');
 import BootstrapVue from 'bootstrap-vue'
-//
 
-//
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
@@ -28,10 +26,10 @@ Vue.use(VueAxios, axios);
 axios.defaults.baseURL = `/api/`;
 
 Vue.use(VueAuth, auth);
-// Load Index
+
 Vue.component('app', App);
 
 const app = new Vue({
     el: '#app',
-    router
+    router: router
 });
