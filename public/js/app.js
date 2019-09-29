@@ -3414,6 +3414,7 @@ __webpack_require__.r(__webpack_exports__);
         })["catch"](function (e) {
           console.log(e);
         });
+        this.nameTask = '';
       }
     },
     deleteTask: function deleteTask(idTask, indexArray) {

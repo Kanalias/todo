@@ -94,11 +94,13 @@
                     })
                         .then( value => {
                                 this.tasks.data = value.data.data;
+
                             }
                         )
                         .catch(e => {
                             console.log(e);
                         });
+                    this.nameTask = ''
                 }
             },
             deleteTask(idTask, indexArray){
