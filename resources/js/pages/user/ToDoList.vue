@@ -2,10 +2,12 @@
     <div class="container">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Введите задачу" v-model="nameTask" required>
-            <div class="input-group-prepend">
-                <button class="btn btn-outline-primary" type="button" @click.prevent="addTask">Добавить</button>
-            </div>
+            <form autocomplete="off" @submit.prevent="addTask" >
+                <input type="text" class="form-control" placeholder="Введите задачу" v-model="nameTask" required>
+                <div class="input-group-prepend">
+                    <button class="btn btn-outline-primary" type="submit">Добавить</button>
+                </div>
+            </form>
         </div>
 
         <table class="table table-borderless table-hover">
