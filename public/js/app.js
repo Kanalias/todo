@@ -3387,7 +3387,8 @@ __webpack_require__.r(__webpack_exports__);
       nameTask: '',
       editTask: '',
       nameState: null,
-      indexArray: 0
+      indexArray: 0,
+      host: 'https://infinite-fjord-74032.herokuapp.com/'
     };
   },
   methods: {
@@ -3399,7 +3400,7 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       if (this.nameTask) {
-        axios.post('http://todo/api/auth/todolist/create', {
+        axios.post(this.host + 'api/auth/todolist/create', {
           bearer: localStorage.getItem('laravel-jwt-auth'),
           text: this.nameTask
         }).then(function (value) {
@@ -3418,7 +3419,7 @@ __webpack_require__.r(__webpack_exports__);
         cancelTitle: 'Нет'
       }).then(function (value) {
         if (value) {
-          axios.post('http://todo/api/auth/todolist/destroy', {
+          axios.post(_this2.host + 'api/auth/todolist/destroy', {
             bearer: localStorage.getItem('laravel-jwt-auth'),
             id: idTask
           }).then(function (value) {
@@ -3446,7 +3447,7 @@ __webpack_require__.r(__webpack_exports__);
         cancelTitle: 'Нет'
       }).then(function (value) {
         if (value) {
-          axios.post('http://todo/api/auth/todolist/update_status', {
+          axios.post(_this3.host + 'api/auth/todolist/update_status', {
             id: idTask,
             status: statusTask
           }).then(function (value) {
@@ -3476,7 +3477,7 @@ __webpack_require__.r(__webpack_exports__);
       } // Вызов api
 
 
-      axios.post('http://todo/api/auth/todolist/update', {
+      axios.post(this.host + 'api/auth/todolist/update', {
         id: this.editTask.id,
         text: this.editTask.text
       }).then(function (value) {
@@ -3495,7 +3496,7 @@ __webpack_require__.r(__webpack_exports__);
     this.error = this.users = null;
     this.loading = true;
     var token = localStorage.getItem('laravel-jwt-auth');
-    axios.get('http://todo/api/auth/todolist?bearer=' + token).then(function (response) {
+    axios.get(this.host + 'api/auth/todolist?bearer=' + token).then(function (response) {
       _this5.loading = false;
       _this5.tasks = response.data;
     })["catch"](function (error) {

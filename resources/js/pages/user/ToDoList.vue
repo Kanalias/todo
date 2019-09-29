@@ -72,6 +72,7 @@
                 editTask: '',
                 nameState: null,
                 indexArray: 0,
+                host: 'https://infinite-fjord-74032.herokuapp.com/'
             }
         },
         methods: {
@@ -81,7 +82,7 @@
             },
             addTask(){
                 if(this.nameTask){
-                    axios.post('http://todo/api/auth/todolist/create', {
+                    axios.post(this.host + 'api/auth/todolist/create', {
                         bearer: localStorage.getItem('laravel-jwt-auth'),
                         text: this.nameTask
                     })
@@ -102,7 +103,7 @@
                 })
                     .then(value => {
                         if(value){
-                            axios.post('http://todo/api/auth/todolist/destroy', {
+                            axios.post(this.host + 'api/auth/todolist/destroy', {
                                 bearer: localStorage.getItem('laravel-jwt-auth'),
                                 id: idTask
                             })
@@ -134,7 +135,7 @@
                 })
                     .then(value => {
                         if(value){
-                            axios.post('http://todo/api/auth/todolist/update_status', {
+                            axios.post(this.host + 'api/auth/todolist/update_status', {
                                 id: idTask,
                                 status: statusTask,
                             })
@@ -167,7 +168,7 @@
                     return
                 }
                 // Вызов api
-                axios.post('http://todo/api/auth/todolist/update', {
+                axios.post(this.host + 'api/auth/todolist/update', {
                     id: this.editTask.id,
                     text: this.editTask.text,
                 })
@@ -189,7 +190,7 @@
                 this.loading = true;
                 var token =  localStorage.getItem('laravel-jwt-auth');
                 axios
-                    .get('http://todo/api/auth/todolist?bearer=' + token)
+                    .get(this.host + 'api/auth/todolist?bearer=' + token)
                     .then(response => {
                         this.loading = false;
                         this.tasks = response.data;
