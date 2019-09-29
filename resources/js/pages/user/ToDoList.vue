@@ -185,7 +185,7 @@
                 })
             }
         },
-        beforeCreate() {
+        mounted() {
                 this.error = this.users = null;
                 this.loading = true;
                 var token =  localStorage.getItem('laravel-jwt-auth');

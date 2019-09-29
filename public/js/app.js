@@ -3490,7 +3490,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     }
   },
-  beforeCreate: function beforeCreate() {
+  mounted: function mounted() {
     var _this5 = this;
 
     this.error = this.users = null;
