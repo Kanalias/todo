@@ -54863,21 +54863,40 @@ var render = function() {
       _vm._v(" "),
       _c(
         "form",
-        {
-          staticClass: "form-inline mb-3",
-          attrs: { autocomplete: "off" },
-          on: {
-            submit: function($event) {
-              $event.preventDefault()
-              return _vm.addTask($event)
-            }
-          }
-        },
-        [_vm._m(0)]
+        { staticClass: "form-inline mb-3", attrs: { autocomplete: "off" } },
+        [
+          _c("div", { staticClass: "form-group w-100" }, [
+            _c("input", {
+              staticClass: "flex-grow-1 form-control",
+              attrs: {
+                type: "text",
+                required: "required",
+                placeholder: "Введите задачу"
+              }
+            }),
+            _vm._v(" "),
+            _c("div", { staticClass: "input-group-prepend" }, [
+              _c(
+                "button",
+                {
+                  staticClass: "btn btn-outline-primary",
+                  attrs: { type: "button" },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.addTask($event)
+                    }
+                  }
+                },
+                [_vm._v("Добавить")]
+              )
+            ])
+          ])
+        ]
       ),
       _vm._v(" "),
       _c("table", { staticClass: "table table-borderless table-hover" }, [
-        _vm._m(1),
+        _vm._m(0),
         _vm._v(" "),
         _c(
           "tbody",
@@ -55008,29 +55027,6 @@ var render = function() {
   )
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "form-group w-100" }, [
-      _c("input", {
-        staticClass: "flex-grow-1 form-control",
-        attrs: {
-          type: "text",
-          required: "required",
-          placeholder: "Введите задачу"
-        }
-      }),
-      _vm._v(" "),
-      _c("div", { staticClass: "input-group-prepend" }, [
-        _c(
-          "button",
-          { staticClass: "btn btn-outline-primary", attrs: { type: "submit" } },
-          [_vm._v("Добавить")]
-        )
-      ])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

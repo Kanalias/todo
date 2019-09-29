@@ -1,11 +1,11 @@
 <template>
     <div class="container">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-            <form autocomplete="off" @submit.prevent="addTask" class="form-inline mb-3">
+            <form autocomplete="off" class="form-inline mb-3">
                 <div class="form-group w-100">
                     <input type="text" required="required" placeholder="Введите задачу" class="flex-grow-1 form-control">
                     <div class="input-group-prepend">
-                        <button type="submit" class="btn btn-outline-primary">Добавить</button>
+                        <button type="button"  @click.prevent="addTask" class="btn btn-outline-primary">Добавить</button>
                     </div>
                 </div>
             </form>
