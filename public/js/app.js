@@ -3381,6 +3381,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ToDoList",
   data: function data() {
@@ -54863,40 +54867,51 @@ var render = function() {
       _vm._v(" "),
       _c(
         "form",
-        { staticClass: "form-inline mb-3", attrs: { autocomplete: "off" } },
+        {
+          staticClass: "form-inline mb-3",
+          attrs: { autocomplete: "off" },
+          on: {
+            submit: function($event) {
+              $event.preventDefault()
+              return _vm.addTask($event)
+            }
+          }
+        },
         [
           _c("div", { staticClass: "form-group w-100" }, [
             _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.nameTask,
+                  expression: "nameTask"
+                }
+              ],
               staticClass: "flex-grow-1 form-control",
               attrs: {
                 type: "text",
                 required: "required",
                 placeholder: "Введите задачу"
+              },
+              domProps: { value: _vm.nameTask },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.nameTask = $event.target.value
+                }
               }
             }),
             _vm._v(" "),
-            _c("div", { staticClass: "input-group-prepend" }, [
-              _c(
-                "button",
-                {
-                  staticClass: "btn btn-outline-primary",
-                  attrs: { type: "button" },
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      return _vm.addTask($event)
-                    }
-                  }
-                },
-                [_vm._v("Добавить")]
-              )
-            ])
+            _vm._m(0)
           ])
         ]
       ),
       _vm._v(" "),
       _c("table", { staticClass: "table table-borderless table-hover" }, [
-        _vm._m(0),
+        _vm._m(1),
         _vm._v(" "),
         _c(
           "tbody",
@@ -55027,6 +55042,18 @@ var render = function() {
   )
 }
 var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "input-group-prepend" }, [
+      _c(
+        "button",
+        { staticClass: "btn btn-outline-primary", attrs: { type: "submit" } },
+        [_vm._v("Добавить")]
+      )
+    ])
+  },
   function() {
     var _vm = this
     var _h = _vm.$createElement
