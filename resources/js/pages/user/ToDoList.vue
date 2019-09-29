@@ -1,19 +1,14 @@
 <template>
     <div class="container">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <div class="input-group mb-3">
-            <form autocomplete="off" @submit.prevent="addTask" class="form-inline">
-                <input type="text"
-                       class="form-control"
-                       required
-                       placeholder="Введите задачу"
-                       v-model="nameTask"
-                       >
-                <div class="input-group-prepend">
-                    <button class="btn btn-outline-primary" type="submit">Добавить</button>
+            <form autocomplete="off" @submit.prevent="addTask" class="form-inline mb-3">
+                <div class="form-group w-100">
+                    <input type="text" required="required" placeholder="Введите задачу" class="flex-grow-1 form-control">
+                    <div class="input-group-prepend">
+                        <button type="submit" class="btn btn-outline-primary">Добавить</button>
+                    </div>
                 </div>
             </form>
-        </div>
 
         <table class="table table-borderless table-hover">
             <thead class="thead-light">
