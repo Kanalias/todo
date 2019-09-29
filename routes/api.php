@@ -13,23 +13,6 @@ use Illuminate\Http\Request;
 |
 */
 
-//Route::group([
-//
-//    'middleware' => 'api',
-//    'prefix' => 'auth'
-//
-//], function ($router) {
-//
-//    Route::post('register', 'RegisterController');
-////    Route::post('login', 'LoginController');
-////    Route::post('logout', 'LogoutController')->middleware('auth:api');
-//
-//});
-
-//Route::post('register', 'RegisterController@register');
-//Route::post('login', 'RegisterController@login');
-//Route::post('logout', 'RegisterController@logout')->middleware('auth:api');
-
 Route::prefix('auth') -> group(function ( ) {
     // Below mention routes are public, user can access those without any restriction.
     // Create New User

@@ -11,7 +11,6 @@
 
 <script>
     import Menu from '../components/Menu.vue'
-    import config from "../auth";
     export default {
         name: "App",
         data() {
@@ -22,10 +21,5 @@
         components: {
             Menu
         },
-        created() {
-            if(localStorage.getItem(config.tokenDefaultName) != null){
-                this.$route.push({path: '/todolist'})
-            }
-        }
     }
 </script>

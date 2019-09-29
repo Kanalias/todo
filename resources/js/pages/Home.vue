@@ -13,7 +13,12 @@
 
 <script>
     export default {
-        name: "Home"
+        name: "Home",
+        beforeCreate() {
+            if(this.$auth.check()){
+                this.$router.push({name: 'todolist'})
+            }
+        }
     }
 </script>
 

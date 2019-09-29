@@ -1,7 +1,7 @@
 <template>
     <b-navbar type="light" variant="light" class="nav">
 
-        <router-link :to="{ name : home_name }" @click.prevent="checkLink()" class="navbar-brand">ToDo</router-link>
+        <router-link :to="{ name : 'home' }" class="navbar-brand">ToDo</router-link>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto" v-if="!$auth.check()">
@@ -26,7 +26,6 @@
             return {
                 home_name: '',
                 routes: {
-
                     // UNLOGGED
                     unlogged: [
                         { name: 'Регистрация', path: 'register' },
@@ -40,22 +39,7 @@
             }
         },
         methods:{
-          checkLink(){
-              if(localStorage.getItem(config.tokenDefaultName) != null){
-                  this.home_name = 'home';
-              }
-              else{
-                  this.home_name = 'todolist';
-              }
-              console.log(this.home_name);
-          },
-          logoutCheck(){
-              this.$auth.logout();
-              this.checkLink();
-          }
         },
-        mounted() {
-        }
     }
 </script>
 

@@ -11,17 +11,6 @@ const routes = [
         path: '/',
         name: 'home',
         component: Home,
-        // beforeEach: (to, from, next) =>
-        // {
-        //     if (localStorage.getItem('laravel-jwt-auth') == null) {
-        //         // console.log('todolist')
-        //         return next({name: 'home'})
-        //     } else {
-        //         // console.log('todolist')
-        //         return next({name: 'todolist'})
-        //     }
-        // },
-        // },
     },
 
     {
@@ -57,19 +46,15 @@ const router = new VueRouter({
     routes,
 });
 
-// router.beforeEach((to, from, next) => {
-//    // if(to.matched.some(record => record.meta.guest)) {
-//         if(localStorage.getItem('laravel-jwt-auth') == null){
-//             // console.log('todolist')
-//             next({ name: 'home'})
-//         }
-//         else{
-//             // console.log('todolist')
-//             next({ name: 'todolist'})
-//         }
-//     // }else {
-//     //     next()
-//     // }
+// router.afterEach((to, from, next) => {
+//     if(to.path === "/"){
+//         // const token = localStorage.getItem(config.tokenDefaultName);
+//         console.log(this.$auth  !== undefined);
+//         if(this.$auth)
+//             next({path: "/todolist", component: ToDoList});
+//     } else {
+//         next()
+//     }
 // });
 
 export default router;

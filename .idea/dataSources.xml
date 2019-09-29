@@ -7,5 +7,11 @@
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://dumbo.db.elephantsql.com:5432/tuhahkxm</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="d6ib38esih6j4s@ec2-54-75-238-138.eu-west-1.compute.amazonaws.com" uuid="11889d36-132f-49db-b0e0-f9e450e2585e">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://ec2-54-75-238-138.eu-west-1.compute.amazonaws.com:5432/d6ib38esih6j4s</jdbc-url>
+    </data-source>
   </component>
 </project>

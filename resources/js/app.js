@@ -20,12 +20,11 @@ window.Vue = Vue;
 
 Vue.router = router;
 Vue.use(VueRouter);
-// Set Vue authentication
+
 Vue.use(VueAxios, axios);
+Vue.use(VueAuth, auth);
 
 axios.defaults.baseURL = `/api/`;
-
-Vue.use(VueAuth, auth);
 
 Vue.component('app', App);
 

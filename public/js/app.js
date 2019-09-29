@@ -3060,22 +3060,7 @@ __webpack_require__.r(__webpack_exports__);
       }
     };
   },
-  methods: {
-    checkLink: function checkLink() {
-      if (localStorage.getItem(_auth__WEBPACK_IMPORTED_MODULE_0__["default"].tokenDefaultName) != null) {
-        this.home_name = 'home';
-      } else {
-        this.home_name = 'todolist';
-      }
-
-      console.log(this.home_name);
-    },
-    logoutCheck: function logoutCheck() {
-      this.$auth.logout();
-      this.checkLink();
-    }
-  },
-  mounted: function mounted() {}
+  methods: {}
 });
 
 /***/ }),
@@ -3103,7 +3088,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: "Home"
+  name: "Home",
+  beforeCreate: function beforeCreate() {
+    if (this.$auth.check()) {
+      this.$router.push({
+        name: 'todolist'
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -3525,7 +3517,6 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_Menu_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../components/Menu.vue */ "./resources/js/components/Menu.vue");
-/* harmony import */ var _auth__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../auth */ "./resources/js/auth.js");
 //
 //
 //
@@ -3537,7 +3528,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "App",
@@ -3548,13 +3538,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   components: {
     Menu: _components_Menu_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
-  },
-  created: function created() {
-    if (localStorage.getItem(_auth__WEBPACK_IMPORTED_MODULE_1__["default"].tokenDefaultName) != null) {
-      this.$route.push({
-        path: '/todolist'
-      });
-    }
   }
 });
 
@@ -54397,16 +54380,7 @@ var render = function() {
     [
       _c(
         "router-link",
-        {
-          staticClass: "navbar-brand",
-          attrs: { to: { name: _vm.home_name } },
-          on: {
-            click: function($event) {
-              $event.preventDefault()
-              return _vm.checkLink()
-            }
-          }
-        },
+        { staticClass: "navbar-brand", attrs: { to: { name: "home" } } },
         [_vm._v("ToDo")]
       ),
       _vm._v(" "),
@@ -70180,11 +70154,10 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 vue__WEBPACK_IMPORTED_MODULE_6___default.a.use(bootstrap_vue__WEBPACK_IMPORTED_MODULE_0__["default"]);
 window.Vue = vue__WEBPACK_IMPORTED_MODULE_6___default.a;
 vue__WEBPACK_IMPORTED_MODULE_6___default.a.router = _routes__WEBPACK_IMPORTED_MODULE_11__["default"];
-vue__WEBPACK_IMPORTED_MODULE_6___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_9__["default"]); // Set Vue authentication
-
+vue__WEBPACK_IMPORTED_MODULE_6___default.a.use(vue_router__WEBPACK_IMPORTED_MODULE_9__["default"]);
 vue__WEBPACK_IMPORTED_MODULE_6___default.a.use(vue_axios__WEBPACK_IMPORTED_MODULE_8___default.a, axios__WEBPACK_IMPORTED_MODULE_5___default.a);
-axios__WEBPACK_IMPORTED_MODULE_5___default.a.defaults.baseURL = "/api/";
 vue__WEBPACK_IMPORTED_MODULE_6___default.a.use(_websanova_vue_auth__WEBPACK_IMPORTED_MODULE_7___default.a, _auth__WEBPACK_IMPORTED_MODULE_10__["default"]);
+axios__WEBPACK_IMPORTED_MODULE_5___default.a.defaults.baseURL = "/api/";
 vue__WEBPACK_IMPORTED_MODULE_6___default.a.component('app', _js_views_App__WEBPACK_IMPORTED_MODULE_3__["default"]);
 var app = new vue__WEBPACK_IMPORTED_MODULE_6___default.a({
   el: '#app',
@@ -70667,18 +70640,7 @@ __webpack_require__.r(__webpack_exports__);
 var routes = [{
   path: '/',
   name: 'home',
-  component: _js_pages_Home__WEBPACK_IMPORTED_MODULE_1__["default"] // beforeEach: (to, from, next) =>
-  // {
-  //     if (localStorage.getItem('laravel-jwt-auth') == null) {
-  //         // console.log('todolist')
-  //         return next({name: 'home'})
-  //     } else {
-  //         // console.log('todolist')
-  //         return next({name: 'todolist'})
-  //     }
-  // },
-  // },
-
+  component: _js_pages_Home__WEBPACK_IMPORTED_MODULE_1__["default"]
 }, {
   path: '/register',
   name: 'register',
@@ -70706,19 +70668,15 @@ var router = new vue_router__WEBPACK_IMPORTED_MODULE_0__["default"]({
   history: true,
   mode: 'history',
   routes: routes
-}); // router.beforeEach((to, from, next) => {
-//    // if(to.matched.some(record => record.meta.guest)) {
-//         if(localStorage.getItem('laravel-jwt-auth') == null){
-//             // console.log('todolist')
-//             next({ name: 'home'})
-//         }
-//         else{
-//             // console.log('todolist')
-//             next({ name: 'todolist'})
-//         }
-//     // }else {
-//     //     next()
-//     // }
+}); // router.afterEach((to, from, next) => {
+//     if(to.path === "/"){
+//         // const token = localStorage.getItem(config.tokenDefaultName);
+//         console.log(this.$auth  !== undefined);
+//         if(this.$auth)
+//             next({path: "/todolist", component: ToDoList});
+//     } else {
+//         next()
+//     }
 // });
 
 /* harmony default export */ __webpack_exports__["default"] = (router);
