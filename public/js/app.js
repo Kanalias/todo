@@ -3381,6 +3381,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: "ToDoList",
   data: function data() {
@@ -54865,6 +54870,7 @@ var render = function() {
         _c(
           "form",
           {
+            staticClass: "form-inline",
             attrs: { autocomplete: "off" },
             on: {
               submit: function($event) {
@@ -54886,8 +54892,8 @@ var render = function() {
               staticClass: "form-control",
               attrs: {
                 type: "text",
-                placeholder: "Введите задачу",
-                required: ""
+                required: "",
+                placeholder: "Введите задачу"
               },
               domProps: { value: _vm.nameTask },
               on: {
